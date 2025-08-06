@@ -13,12 +13,12 @@ import { styles } from "./styles";
 import { Input } from "../../components/Input";
 import { Button } from "../../components/Button";
 
-import SvgFormStepOne from "../../assets/svg/formStepOne.svg";
+import SvgFormStepTwo from "../../assets/svg/formStepTwo.svg";
 import { useNavigation } from "@react-navigation/native";
-import { AccountProps } from "contexts/AccountFormContext";
 import { useAccountForm } from "hooks/useAccountForm";
+import { AccountProps } from "contexts/AccountFormContext";
 
-export function FormStepOne() {
+export function FormStepTwo() {
 
   const { UpdateFormData } = useAccountForm();
 
@@ -32,10 +32,12 @@ export function FormStepOne() {
 
   function handleNextStep(data: AccountProps) {
     UpdateFormData(data);
-    navigate("formStepTwo")
+    navigate("formStepThree")
   }
 
-  const lastNameRef = useRef<TextInput>(null);
+
+
+  const phoneRef = useRef<TextInput>(null);
 
   return (
     <KeyboardAvoidingView
@@ -43,41 +45,49 @@ export function FormStepOne() {
       behavior={Platform.OS === "ios" ? "padding" : "height"} // Identifica se é iOS ou Android
       keyboardVerticalOffset={Platform.OS === "ios" ? 60 : 0} // ajuste se tiver header
     >
-      <Text style={styles.title}>Criar sua conta</Text>
+      <Text style={styles.title}>Suas informações</Text>
       <View>
-        <SvgFormStepOne style={styles.stepOne} />
+        <SvgFormStepTwo style={styles.stepTwo} />
       </View>
 
       <Input
-        icon="user"
-        error={errors.name?.message}
+        icon="mail"
+        error={errors.email?.message}
         formProps={{
           control,
-          name: "name",
+          name: "email",
           rules: {
-            required: "Nome é obrigatório!",
+            required: "Email é obrigatório!",
+            pattern: {
+              value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|com\.br)$/,
+              message: "Email inválido.",
+            },
           },
         }}
         inputProps={{
-          placeholder: "Nome",
-          onSubmitEditing: () => lastNameRef.current?.focus(),
+          placeholder: "Email",
+          onSubmitEditing: () => phoneRef.current?.focus(),
           returnKeyType: "next",
         }}
       />
 
       <Input
-        icon="user-check"
-        ref={lastNameRef}
-        error={errors.lastname?.message}
+        icon="phone"
+        ref={phoneRef}
+        error={errors.phone?.message}
         formProps={{
-          name: "lastname",
+          name: "phone",
           control,
           rules: {
-            required: "Sobrenome é obrigatório!",
+            required: "Whatsapp é obrigatório!",
+            pattern: {
+              value: /^\(?\d{2}\)?[\s-]?9?\d{4}-?\d{4}$/,
+              message: "Número inválido.",
+            },
           },
         }}
         inputProps={{
-          placeholder: "Sobrenome",
+          placeholder: "WhatsApp",
           onSubmitEditing: handleSubmit(handleNextStep),
         }}
       />

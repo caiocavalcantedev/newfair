@@ -3,9 +3,14 @@
   "compilerOptions": {
     "strict": true,
     "baseUrl": "./src",
-    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "typeRoots": [
+      "src/@types",
+      "./node_modules/@types"
+    ],
     "allowSyntheticDefaultImports": true,
     "jsx": "react-native"
   },
-  "include": ["src"]
+  "include": [
+    "src"
+  ]
 }
